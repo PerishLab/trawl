@@ -1,0 +1,12 @@
+{
+  "imports": {
+    "@perish/sealkit": "jsr:@perish/sealkit@^0.3.1"
+  },
+  "compilerOptions": {
+    "strict": true
+  },
+  "fmt": {
+    "lineWidth": 100,
+    "semiColons": true
+  }
+}

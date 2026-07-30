@@ -1,0 +1,51 @@
+name: guard
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: guard-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guard:
+    runs-on: docker
+    container:
+      image: mirror.perish.lan/ci/deno
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Install stable Ectropy
+        uses: PerishLab/actions/setup-binary@main
+        env:
+          PERISH_SETUP_PRODUCT: ectropy
+
+      - name: Install stable Plumb
+        uses: PerishLab/actions/setup-binary@main
+        env:
+          PERISH_SETUP_PRODUCT: plumb
+
+      - name: Guard
+        run: |
+          set -eu
+          deno run \
+            --allow-read \
+            "--allow-write=." \
+            --allow-env \
+            --allow-net \
+            "--allow-run=git,tea,cargo,sh,deno,plumb,runseal,ectropy" \
+            --config .runseal/deno.json \
+            --lock .runseal/deno.lock \
+            --frozen=true \
+            .runseal/wrappers/guard.ts \
+            --fresh

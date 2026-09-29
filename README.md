@@ -9,7 +9,7 @@ general platform without consumer pressure.
 
 ## Status
 
-The repository is entering the Plumb skeleton. Its initial Rust library anchor
+The repository is a Plumb-governed skeleton. Its initial Rust library anchor
 is intentionally empty. Source, observation, artifact, corpus, index, ranking,
 adapter, scheduler, and consumer contracts remain open until the cold-start
 discussion identifies the first complete scenario.
